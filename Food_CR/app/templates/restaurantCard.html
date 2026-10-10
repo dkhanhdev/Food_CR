@@ -1,6 +1,6 @@
-<div onclick="goToRestaurantDetail({{id}})">
+<div onclick="goToRestaurantDetail({{id}})" class="cursor-pointer">
     <div class="h-48 relative overflow-hidden">
-        <img class="w-full h-full object-cover" src="{{cover_image}}">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="{{cover_image}}" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80'" alt="{{name}}">
         <div
             class="absolute top-3 right-3 bg-white/90 backdrop-blur shadow-sm px-2 py-1 rounded-lg flex items-center gap-1">
             <span class="material-symbols-outlined text-[16px] text-tertiary"

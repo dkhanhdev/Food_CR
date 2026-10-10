@@ -546,6 +546,14 @@ def _seed_orders_full_status(restaurant_map):
     db.session.commit()
     print(f"✅ Đã tạo user '{test_customer.username}' và {orders_created} đơn hàng (bao gồm 10 đơn hôm nay chia đều 3 trạng thái).")
 
+    try:
+        from app.service.recommendation_train import train_association_rules
+        print("🤖 Đang huấn luyện luật kết hợp gợi ý món ăn (FP-Growth)...")
+        train_association_rules(app=app)
+        print("✅ Hoàn tất huấn luyện luật kết hợp!")
+    except Exception as e:
+        print(f"⚠️ Không thể huấn luyện luật kết hợp: {e}")
+
 
 if __name__ == "__main__":
     seed()

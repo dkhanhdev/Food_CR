@@ -135,14 +135,33 @@ class DishesDao:
 
     @staticmethod
     def get_top_recommended_dishes(limit=10):
-        return (
+        rule_dishes = (
             Dish.query
             .join(AssociationRule, AssociationRule.consequent_dish_id == Dish.id)
             .filter(Dish.active == True)
             .order_by(AssociationRule.lift.desc())
-            .limit(limit)
             .all()
         )
+        seen_ids = set()
+        dishes = []
+        for d in rule_dishes:
+            if d.id not in seen_ids:
+                seen_ids.add(d.id)
+                dishes.append(d)
+            if len(dishes) >= limit:
+                break
+
+        if len(dishes) < limit:
+            fallback = (
+                Dish.query
+                .filter(Dish.active == True, ~Dish.id.in_(seen_ids) if seen_ids else True)
+                .order_by(Dish.id.desc())
+                .limit(limit - len(dishes))
+                .all()
+            )
+            dishes.extend(fallback)
+
+        return dishes
 
 
 

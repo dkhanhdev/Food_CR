@@ -132,13 +132,17 @@ class RestaurantsDao:
         rules = AssociationRule.query.filter_by(
             restaurant_id=restaurant_id,
             antecedent_dish_id=dish_id
-        ).all()
-
+        ).order_by(AssociationRule.lift.desc()).all()
 
         recommended_dishes = []
+        seen_ids = set()
+        if dish_id:
+            seen_ids.add(dish_id)
+
         for rule in rules:
             dish = rule.consequent_dish
-            if dish and dish.active:
+            if dish and dish.active and dish.id not in seen_ids:
+                seen_ids.add(dish.id)
                 recommended_dishes.append({
                     "id": dish.id,
                     "name": dish.name,
@@ -146,6 +150,21 @@ class RestaurantsDao:
                     "image": dish.image
                 })
 
+        # Fallback lấy các món khác của cùng nhà hàng nếu chưa đủ luật kết hợp
+        if len(recommended_dishes) < 4:
+            fallback = Dish.query.filter(
+                Dish.restaurant_id == restaurant_id,
+                Dish.active == True,
+                ~Dish.id.in_(seen_ids) if seen_ids else True
+            ).limit(4 - len(recommended_dishes)).all()
+
+            for dish in fallback:
+                recommended_dishes.append({
+                    "id": dish.id,
+                    "name": dish.name,
+                    "price": dish.price,
+                    "image": dish.image
+                })
 
         return recommended_dishes
 

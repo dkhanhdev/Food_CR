@@ -287,7 +287,7 @@ class RestaurantConfig(Base):
     """Cấu hình riêng của từng nhà hàng; tồn tại row = override, không có row = dùng giá trị admin."""
     __tablename__ = 'restaurant_config'
     name = Column(String(150), nullable=False, default=lambda: "restaurant-config")
-    restaurant_id = Column(Integer, ForeignKey('restaurant.id'), primary_key=True)
+    restaurant_id = Column(Integer, ForeignKey('restaurant.id'), unique=True, nullable=False)
     max_cart_items = Column(Integer, nullable=False)
     restaurant = relationship('Restaurant')
 

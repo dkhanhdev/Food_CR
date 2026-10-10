@@ -121,8 +121,8 @@ function renderHeroSection(period) {
         <h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg" style="color:${d.title_color}">${d.title}</h1>
         <p class="font-body-lg text-body-lg max-w-xl" style="color:${d.desc_color}">${d.desc}</p>
         <div class="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
-            <button class="px-8 py-4 rounded-full font-label-md text-label-md font-bold shadow-lg hover:scale-105 transition-all" style="background-color:${d.btn_primary_bg};color:${d.btn_primary_text}">Khám phá ngay</button>
-            <button class="border px-8 py-4 rounded-full font-label-md text-label-md hover:opacity-80 transition-all" style="border-color:${d.btn_secondary_border};color:${d.btn_secondary_text}">Xem menu gợi ý</button>
+            <button onclick="document.getElementById('restaurant-scroll')?.scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 rounded-full font-label-md text-label-md font-bold shadow-lg hover:scale-105 transition-all" style="background-color:${d.btn_primary_bg};color:${d.btn_primary_text}">Khám phá ngay</button>
+            <button onclick="document.getElementById('suggestions-section')?.scrollIntoView({behavior: 'smooth'})" class="border px-8 py-4 rounded-full font-label-md text-label-md hover:opacity-80 transition-all" style="border-color:${d.btn_secondary_border};color:${d.btn_secondary_text}">Xem menu gợi ý</button>
         </div>
     </div>
     <div class="flex-1 w-full max-w-md">
